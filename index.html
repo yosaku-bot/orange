@@ -66,19 +66,14 @@ function evaluate() {
   if (weight >= 250) score += 2;
   else if (weight >= 200) score += 1;
 
-  score += skinFirmness;
-  score += colorDepth;
-  score += stemFreshness;
-  score += aroma;
+  score += skinFirmness + colorDepth + stemFreshness + aroma;
 
-  let resultText = "";
-
-  if (score >= 8) resultText = "極上🍊";
-  else if (score >= 5) resultText = "当たり🍊";
-  else resultText = "普通〜様子見🍊";
+  let result = "普通〜様子見🍊";
+  if (score >= 8) result = "極上🍊";
+  else if (score >= 5) result = "当たり🍊";
 
   document.getElementById("result").textContent =
-    `スコア: ${score} → ${resultText}`;
+    "スコア: " + score + " → " + result;
 }
 </script>
 
