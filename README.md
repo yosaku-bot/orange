@@ -4,25 +4,25 @@
 <meta charset="UTF-8">
 <title>はるみオレンジ判定</title>
 <style>
-  body {
-    font-family: sans-serif;
-    background: #fff8f0;
-    padding: 20px;
-  }
-  h1 { color: #e67e22; }
-  label { display: block; margin-top: 10px; }
-  button {
-    margin-top: 15px;
-    padding: 8px 15px;
-    background: orange;
-    border: none;
-    cursor: pointer;
-  }
-  #result {
-    margin-top: 20px;
-    font-size: 1.5em;
-    font-weight: bold;
-  }
+body {
+  font-family: sans-serif;
+  background: #fff8f0;
+  padding: 20px;
+}
+h1 { color: #e67e22; }
+label { display: block; margin-top: 10px; }
+button {
+  margin-top: 15px;
+  padding: 8px 15px;
+  background: orange;
+  border: none;
+  cursor: pointer;
+}
+#result {
+  margin-top: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
 </style>
 </head>
 <body>
