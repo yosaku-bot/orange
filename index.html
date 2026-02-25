@@ -1,79 +1,423 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <title>はるみオレンジ判定</title>
 <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  font-family: sans-serif;
-  background: #fff8f0;
-  padding: 20px;
+font-family: ‘Hiragino Kaku Gothic Pro’, ‘Meiryo’, sans-serif;
+background: #110800;
+color: #FFF7EE;
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 24px;
 }
-h1 { color: #e67e22; }
-label { display: block; margin-top: 10px; }
-button {
-  margin-top: 15px;
-  padding: 8px 15px;
-  background: orange;
-  border: none;
-  cursor: pointer;
+
+body::before {
+content: ‘’;
+position: fixed;
+top: -200px; right: -200px;
+width: 600px; height: 600px;
+background: radial-gradient(circle, rgba(255,100,0,0.15) 0%, transparent 70%);
+pointer-events: none;
 }
+body::after {
+content: ‘’;
+position: fixed;
+bottom: -200px; left: -200px;
+width: 500px; height: 500px;
+background: radial-gradient(circle, rgba(255,180,0,0.1) 0%, transparent 70%);
+pointer-events: none;
+}
+
+.wrap {
+width: 100%;
+max-width: 440px;
+}
+
+.header {
+text-align: center;
+margin-bottom: 36px;
+}
+
+.icon-big {
+font-size: 3.5rem;
+display: block;
+margin-bottom: 10px;
+animation: bob 3s ease-in-out infinite;
+filter: drop-shadow(0 0 20px rgba(255,120,0,0.7));
+}
+
+@keyframes bob {
+0%, 100% { transform: translateY(0px); }
+50% { transform: translateY(-8px); }
+}
+
+h1 {
+font-size: 1.6rem;
+font-weight: bold;
+letter-spacing: 0.2em;
+background: linear-gradient(120deg, #F5A623, #FF6B1A, #FFD580);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.tagline {
+margin-top: 6px;
+font-size: 0.7rem;
+letter-spacing: 0.35em;
+color: rgba(255,247,238,0.35);
+text-transform: uppercase;
+}
+
+.card {
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(255,120,0,0.2);
+border-radius: 20px;
+padding: 32px 28px;
+box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+
+.weight-wrap {
+margin-bottom: 28px;
+}
+
+.field-label {
+font-size: 0.78rem;
+letter-spacing: 0.12em;
+color: rgba(255,247,238,0.55);
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.weight-row {
+display: flex;
+align-items: center;
+background: rgba(255,255,255,0.05);
+border: 1px solid rgba(255,120,0,0.25);
+border-radius: 12px;
+overflow: hidden;
+}
+
+.weight-btn {
+width: 48px;
+height: 56px;
+background: rgba(255,120,0,0.15);
+border: none;
+color: #FF6B1A;
+font-size: 1.4rem;
+cursor: pointer;
+transition: background 0.15s;
+flex-shrink: 0;
+}
+.weight-btn:hover { background: rgba(255,120,0,0.3); }
+.weight-btn:active { background: rgba(255,120,0,0.4); }
+
+#weight {
+flex: 1;
+background: transparent;
+border: none;
+color: #FFF7EE;
+font-size: 1.6rem;
+font-weight: bold;
+text-align: center;
+outline: none;
+padding: 0 4px;
+-moz-appearance: textfield;
+}
+#weight::-webkit-inner-spin-button,
+#weight::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.weight-unit {
+font-size: 0.7rem;
+color: rgba(255,247,238,0.3);
+letter-spacing: 0.15em;
+padding-right: 14px;
+}
+
+.sep {
+border: none;
+border-top: 1px solid rgba(255,120,0,0.1);
+margin: 24px 0;
+}
+
+.score-field {
+margin-bottom: 22px;
+}
+
+.score-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.score-val {
+font-size: 1rem;
+font-weight: bold;
+color: #F5A623;
+}
+
+.dots {
+display: flex;
+gap: 8px;
+}
+
+.dot {
+flex: 1;
+height: 36px;
+border-radius: 8px;
+border: 1px solid rgba(255,120,0,0.25);
+background: rgba(255,255,255,0.04);
+color: rgba(255,247,238,0.4);
+font-size: 0.85rem;
+font-family: inherit;
+cursor: pointer;
+transition: all 0.15s;
+}
+
+.dot:hover {
+border-color: rgba(255,120,0,0.5);
+color: rgba(255,247,238,0.8);
+background: rgba(255,120,0,0.1);
+}
+
+.dot.on {
+background: linear-gradient(135deg, #C94F0A, #FF6B1A);
+border-color: #FF6B1A;
+color: white;
+box-shadow: 0 2px 12px rgba(255,107,26,0.4);
+font-weight: bold;
+}
+
+.judge-btn {
+width: 100%;
+padding: 16px;
+margin-top: 8px;
+background: linear-gradient(135deg, #C94F0A, #FF6B1A, #FF9B5C);
+border: none;
+border-radius: 12px;
+color: white;
+font-size: 1rem;
+font-weight: bold;
+letter-spacing: 0.25em;
+font-family: inherit;
+cursor: pointer;
+transition: transform 0.15s, box-shadow 0.15s;
+box-shadow: 0 6px 24px rgba(255,107,26,0.35);
+}
+.judge-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 32px rgba(255,107,26,0.5);
+}
+.judge-btn:active {
+transform: translateY(0);
+}
+
 #result {
-  margin-top: 20px;
-  font-size: 1.5em;
-  font-weight: bold;
+margin-top: 28px;
+padding-top: 24px;
+border-top: 1px solid rgba(255,120,0,0.12);
+text-align: center;
+display: none;
+}
+
+.score-display {
+font-size: 0.7rem;
+letter-spacing: 0.3em;
+color: rgba(255,247,238,0.35);
+text-transform: uppercase;
+margin-bottom: 8px;
+}
+
+.score-big {
+font-size: 3.5rem;
+font-weight: bold;
+color: #F5A623;
+line-height: 1;
+text-shadow: 0 0 30px rgba(245,166,35,0.5);
+}
+
+.score-max {
+font-size: 1rem;
+color: rgba(255,247,238,0.3);
+margin-left: 4px;
+}
+
+.bar-bg {
+height: 5px;
+background: rgba(255,255,255,0.07);
+border-radius: 99px;
+margin: 14px 0;
+overflow: hidden;
+}
+
+.bar-fill {
+height: 100%;
+width: 0;
+background: linear-gradient(90deg, #C94F0A, #F5A623);
+border-radius: 99px;
+box-shadow: 0 0 10px rgba(245,166,35,0.4);
+transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+
+.verdict {
+font-size: 2rem;
+font-weight: bold;
+letter-spacing: 0.12em;
+margin-top: 12px;
+background: linear-gradient(120deg, #F5A623, #FF9B5C);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.verdict-emoji {
+font-size: 1.6rem;
+margin-top: 8px;
 }
 </style>
+
 </head>
 <body>
 
-<h1>🍊 はるみオレンジ判定</h1>
+<div class="wrap">
+  <div class="header">
+    <span class="icon-big">🍊</span>
+    <h1>はるみオレンジ判定</h1>
+    <p class="tagline">Quality Evaluation System</p>
+  </div>
 
-<label>重さ (g)
-  <input type="number" id="weight" value="250">
-</label>
+  <div class="card">
 
-<label>皮のハリ (0=弱い / 1=普通 / 2=強い)
-  <input type="number" id="skinFirmness" min="0" max="2" value="2">
-</label>
+```
+<div class="weight-wrap">
+  <div class="field-label">⚖️ 重さ</div>
+  <div class="weight-row">
+    <button class="weight-btn" onclick="changeWeight(-10)">－</button>
+    <input type="number" id="weight" value="250">
+    <span class="weight-unit">g</span>
+    <button class="weight-btn" onclick="changeWeight(+10)">＋</button>
+  </div>
+</div>
 
-<label>色の濃さ (0=青み / 1=やや薄い / 2=濃い)
-  <input type="number" id="colorDepth" min="0" max="2" value="2">
-</label>
+<hr class="sep">
 
-<label>ヘタの鮮度 (0=乾燥 / 1=緑あり)
-  <input type="number" id="stemFreshness" min="0" max="1" value="1">
-</label>
+<div class="score-field">
+  <div class="score-top">
+    <div class="field-label" style="margin:0">🫧 皮のハリ</div>
+    <div class="score-val" id="v-skin">2</div>
+  </div>
+  <div class="dots" id="d-skin"></div>
+</div>
 
-<label>香り (0=弱い / 1=普通 / 2=強い)
-  <input type="number" id="aroma" min="0" max="2" value="2">
-</label>
+<div class="score-field">
+  <div class="score-top">
+    <div class="field-label" style="margin:0">🎨 色の濃さ</div>
+    <div class="score-val" id="v-color">2</div>
+  </div>
+  <div class="dots" id="d-color"></div>
+</div>
 
-<button onclick="evaluate()">判定する</button>
+<div class="score-field">
+  <div class="score-top">
+    <div class="field-label" style="margin:0">🌿 ヘタの鮮度</div>
+    <div class="score-val" id="v-stem">1</div>
+  </div>
+  <div class="dots" id="d-stem"></div>
+</div>
 
-<div id="result"></div>
+<div class="score-field">
+  <div class="score-top">
+    <div class="field-label" style="margin:0">✨ 香り</div>
+    <div class="score-val" id="v-aroma">2</div>
+  </div>
+  <div class="dots" id="d-aroma"></div>
+</div>
+
+<hr class="sep">
+
+<button class="judge-btn" onclick="judge()">判　定　す　る</button>
+
+<div id="result">
+  <div class="score-display">TOTAL SCORE</div>
+  <div>
+    <span class="score-big" id="r-num">0</span>
+    <span class="score-max">/ 8</span>
+  </div>
+  <div class="bar-bg"><div class="bar-fill" id="r-bar"></div></div>
+  <div class="verdict" id="r-label"></div>
+  <div class="verdict-emoji" id="r-emoji"></div>
+</div>
+```
+
+  </div>
+</div>
 
 <script>
-function evaluate() {
-  const weight = Number(document.getElementById("weight").value);
-  const skinFirmness = Number(document.getElementById("skinFirmness").value);
-  const colorDepth = Number(document.getElementById("colorDepth").value);
-  const stemFreshness = Number(document.getElementById("stemFreshness").value);
-  const aroma = Number(document.getElementById("aroma").value);
+var vals  = { skin: 2, color: 2, stem: 1, aroma: 2 };
+var maxes = { skin: 2, color: 2, stem: 1, aroma: 2 };
 
-  let score = 0;
+// ドットボタンを生成
+['skin','color','stem','aroma'].forEach(function(id) {
+  var max = maxes[id];
+  var container = document.getElementById('d-' + id);
+  for (var i = 0; i <= max; i++) {
+    (function(v) {
+      var btn = document.createElement('button');
+      btn.className = 'dot' + (v === vals[id] ? ' on' : '');
+      btn.textContent = v;
+      btn.onclick = function() { pick(id, v); };
+      container.appendChild(btn);
+    })(i);
+  }
+});
 
+function pick(id, v) {
+  vals[id] = v;
+  document.getElementById('v-' + id).textContent = v;
+  var btns = document.getElementById('d-' + id).querySelectorAll('.dot');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].className = 'dot' + (i === v ? ' on' : '');
+  }
+}
+
+function changeWeight(delta) {
+  var el = document.getElementById('weight');
+  var v = parseInt(el.value) || 0;
+  el.value = Math.max(0, v + delta);
+}
+
+function judge() {
+  var weight = parseInt(document.getElementById('weight').value) || 0;
+  var score = 0;
   if (weight >= 250) score += 2;
   else if (weight >= 200) score += 1;
+  score += vals.skin + vals.color + vals.stem + vals.aroma;
 
-  score += skinFirmness + colorDepth + stemFreshness + aroma;
+  var label, emoji;
+  if (score >= 8)      { label = '極　上'; emoji = '🍊🍊🍊'; }
+  else if (score >= 5) { label = '当たり'; emoji = '🍊🍊'; }
+  else                 { label = '普通〜様子見'; emoji = '🍊'; }
 
-  let result = "普通〜様子見🍊";
-  if (score >= 8) result = "極上🍊";
-  else if (score >= 5) result = "当たり🍊";
+  var box = document.getElementById('result');
+  box.style.display = 'block';
+  document.getElementById('r-num').textContent = score;
+  document.getElementById('r-label').textContent = label;
+  document.getElementById('r-emoji').textContent = emoji;
 
-  document.getElementById("result").textContent =
-    "スコア: " + score + " → " + result;
+  document.getElementById('r-bar').style.width = '0%';
+  setTimeout(function() {
+    document.getElementById('r-bar').style.width = (score / 8 * 100) + '%';
+  }, 50);
 }
 </script>
 
